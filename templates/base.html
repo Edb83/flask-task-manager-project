@@ -37,7 +37,9 @@
             {% if session.user %}
                 <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                 <li><a href="{{ url_for('add_task') }}">New Task</a></li>
-                <li><a href="#">Manage Categories</a></li>
+                {% if session.user|lower == "admin"|lower %}
+                   <li><a href="{{ url_for('get_categories') }}">Manage Categories</a></li>
+                {% endif %}
                 <li><a href="{{ url_for('logout') }}">Log Out</a></li>
             {% else %}
                 <li><a href="{{ url_for('login') }}">Log In</a></li>
@@ -54,7 +56,12 @@
             {% if session.user %}
                 <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                 <li><a href="{{ url_for('add_task') }}">New Task</a></li>
-                <li><a href="#">Manage Categories</a></li>
+                <!-- NB this does not prevent page being accessed by users not logged in as admin e.g. by typing out url -->
+                <!-- Would need to include check in app.py -->
+                <!-- Consider 'superuser' toggle for multiple admins -->
+                {% if session.user|lower == "admin"|lower %}
+                   <li><a href="{{ url_for('get_categories') }}">Manage Categories</a></li>
+                {% endif %}
                 <li><a href="{{ url_for('logout') }}">Log Out</a></li>
             {% else %}
                 <li><a href="{{ url_for('login') }}">Log In</a></li>
